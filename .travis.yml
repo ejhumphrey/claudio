@@ -1,9 +1,10 @@
-sudo: false
+sudo: true
 
 addons:
   apt:
     packages:
     - sox
+    - ffmpeg
 
 cache:
   directories:
@@ -20,12 +21,13 @@ python:
     - "3.5"
 
 install:
+    - pip install pytest pytest-cov
     - pip install coveralls
     - pip install -e ./
 
 script:
     - python --version
-    - nosetests --with-coverage --cover-erase --cover-package=claudio -v -w ./
+    - py.test -vs --cov=claudio .
 
 after_success:
     - coveralls
